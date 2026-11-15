@@ -9,4 +9,8 @@ export default defineConfig({
   integrations: [react(), sitemap()],
   vite: { plugins: [tailwindcss()] },
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
+  // Halaman dibuat sebagai fitur.html (bukan fitur/index.html) agar /fitur langsung terbuka
+  // tanpa redirect di Cloudflare, sama dengan tautan di navigasi.
+  build: { format: 'file' },
+  trailingSlash: 'never',
 });

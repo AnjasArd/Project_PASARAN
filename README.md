@@ -21,10 +21,28 @@ Butuh Node.js 22.23.4 atau lebih baru.
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # cek tipe, lalu hasil statis ke dist/
-npm run preview  # pratinjau hasil build
+npm run preview  # build lalu pratinjau lewat Wrangler (seperti di Cloudflare)
 ```
 
-Folder `dist/` bisa diunggah ke hosting statis apa pun (Cloudflare Pages, Netlify, Vercel, atau Nginx).
+## Hosting di Cloudflare
+
+Situs dihosting sebagai Cloudflare Worker bernama `pasaran` yang hanya menyajikan aset statis dari `dist/` (konfigurasi di `wrangler.jsonc`).
+
+```bash
+npm run cf:login   # sekali saja, masuk ke akun Cloudflare di browser
+npm run preview    # build lalu jalankan persis seperti di Cloudflare, di http://localhost:8787
+npm run deploy     # cek tipe, build, lalu kirim ke Cloudflare
+```
+
+Setelah deploy pertama, situs aktif di `https://pasaran.<subdomain-akun>.workers.dev`. Untuk domain sendiri, tambahkan Custom Domain di dasbor Cloudflare (Workers & Pages, pasaran, Settings, Domains & Routes), lalu samakan `site` di `astro.config.mjs` dan alamat sitemap di `public/robots.txt`.
+
+Pengaturan yang dipakai:
+
+- Halaman dibuat sebagai `fitur.html`, sehingga `/fitur` terbuka langsung tanpa redirect.
+- Alamat yang tidak ada menampilkan halaman 404 dengan status 404.
+- `public/_headers` menambah header keamanan dan cache satu tahun untuk berkas `/_astro/*` yang namanya ber-hash.
+
+Untuk deploy otomatis setiap push ke GitHub, hubungkan repo di dasbor Cloudflare (Workers & Pages, pasaran, Settings, Build) dengan perintah build `npm run build` dan perintah deploy `npx wrangler deploy`.
 
 ## Struktur
 
@@ -38,6 +56,8 @@ src/
   components/             Header, Footer, dan bagian statis
   components/react/       HeroHook, StoreDemo, PricingTable, AuthForm
   pages/                  index, fitur, contoh-toko, harga, tanya-jawab, daftar, masuk, 404
+public/_headers           Header keamanan dan cache untuk Cloudflare
+wrangler.jsonc            Konfigurasi Cloudflare Worker "pasaran"
 ```
 
 ## Yang perlu diganti sebelum rilis

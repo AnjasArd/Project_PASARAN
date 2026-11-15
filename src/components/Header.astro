@@ -1,6 +1,6 @@
 ---
 import { NAV, SITUS } from '../data/site';
-const jalur = Astro.url.pathname.replace(/\/$/, '') || '/';
+const jalur = Astro.url.pathname.replace(/(\/index)?\.html$/, '').replace(/\/$/, '') || '/';
 ---
 
 <header class="sticky top-0 z-50 bg-kertas border-b-2 border-tinta" transition:persist>

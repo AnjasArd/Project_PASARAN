@@ -14,7 +14,9 @@ interface Props {
 }
 const { judul, deskripsi = SITUS.deskripsi } = Astro.props;
 const judulLengkap = judul ? `${judul} | ${SITUS.nama}` : `${SITUS.nama}: toko online sendiri untuk UMKM`;
-const kanonis = new URL(Astro.url.pathname, Astro.site);
+// build.format 'file' membuat pathname berakhiran .html; URL kanonis memakai alamat tanpa .html.
+const jalurBersih = Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/';
+const kanonis = new URL(jalurBersih, Astro.site);
 ---
 
 <!doctype html>

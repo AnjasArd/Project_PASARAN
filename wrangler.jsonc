@@ -1,0 +1,16 @@
+{
+  // Cloudflare Workers, hanya aset statis hasil `astro build` (tanpa kode server).
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pasaran",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    // Alamat yang tidak ada menampilkan dist/404.html dengan status 404.
+    "not_found_handling": "404-page",
+    // /fitur dan /fitur/ sama-sama membuka dist/fitur/index.html.
+    "html_handling": "auto-trailing-slash"
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": { "enabled": true }
+}
