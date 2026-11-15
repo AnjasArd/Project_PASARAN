@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import StoreDemo from '../components/react/StoreDemo';
+import Langkah from '../components/Langkah.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<Base judul="Contoh toko" deskripsi="Coba berbelanja di tiga toko contoh PASARAN: briket arang, warung makan, dan sablon kaos.">
+  <PageHead judul="Coba jadi pembeli" pengantar="Tiga toko contoh dari sektor berbeda. Tambah barang, lihat nota berubah, lalu tekan pesan untuk melihat pesan WhatsApp yang diterima penjual." />
+
+  <section class="pb-20">
+    <div class="wadah">
+      <StoreDemo client:load />
+      <p class="text-sm text-pudar mt-6">Toko, barang, dan harga di atas adalah contoh. Tidak ada pesanan atau pembayaran sungguhan.</p>
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah">
+      <div class="kepala-bagian"><h2>Toko Anda bisa seperti ini dalam tiga langkah</h2></div>
+      <Langkah />
+    </div>
+  </section>
+
+  <CtaBand judul="Giliran toko Anda" />
+</Base>

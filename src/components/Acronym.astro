@@ -1,0 +1,22 @@
+---
+import { AKRONIM } from '../data/site';
+// Pola warna: ubin biru dan putih berselang, ubin tengah kunyit.
+const warna = (i: number) => (i === 3 ? 'bg-kunyit text-tinta' : i % 2 === 0 ? 'bg-tinta text-white' : 'bg-nota text-tinta');
+const miring = ['-5deg', '4deg', '-3deg', '6deg', '-4deg', '3deg', '-6deg'];
+---
+<ul class="ubin-wadah grid grid-cols-2 lg:grid-cols-7 border-2 border-tinta">
+  {
+    AKRONIM.map((a, i) => (
+      <li
+        class:list={['ubin ubin-pasang grid content-between gap-4 lg:gap-7 p-4 lg:min-h-[190px] border-tinta max-lg:border-b-2 lg:border-r-2 last:border-0 max-lg:odd:border-r-2 max-lg:last:col-span-2', warna(i)]}
+        style={`--i:${i};--r:${miring[i]}`}
+      >
+        <span class="huruf font-display font-black text-5xl leading-[0.9] [font-stretch:125%]" aria-hidden="true">{a.huruf}</span>
+        <div>
+          <strong class="block mb-1">{a.kata}</strong>
+          <span class="block text-[0.84rem] leading-snug">{a.ket}</span>
+        </div>
+      </li>
+    ))
+  }
+</ul>

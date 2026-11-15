@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import AuthForm from '../components/react/AuthForm';
+---
+
+<Base judul="Masuk">
+  <section class="gelap bg-tinta text-white py-16 md:py-24 min-h-[70vh]">
+    <div class="wadah grid gap-10 lg:grid-cols-[5fr_6fr] items-start">
+      <div class="grid gap-4">
+        <h1 class="masuk" style="--i:0">Masuk ke toko Anda</h1>
+        <p class="masuk text-[#C9D1EE] text-[1.1rem] max-w-[46ch]" style="--i:1">Gunakan nomor WhatsApp yang Anda pakai saat mendaftar.</p>
+      </div>
+      <div class="masuk" style="--i:2">
+        <AuthForm mode="masuk" client:load />
+      </div>
+    </div>
+  </section>
+</Base>

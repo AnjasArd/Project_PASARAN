@@ -1,0 +1,50 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/caveat';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITUS } from '../data/site';
+
+interface Props {
+  judul?: string;
+  deskripsi?: string;
+}
+const { judul, deskripsi = SITUS.deskripsi } = Astro.props;
+const judulLengkap = judul ? `${judul} | ${SITUS.nama}` : `${SITUS.nama}: toko online sendiri untuk UMKM`;
+const kanonis = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{judulLengkap}</title>
+    <meta name="description" content={deskripsi} />
+    <link rel="canonical" href={kanonis} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#16245C" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={judulLengkap} />
+    <meta property="og:description" content={deskripsi} />
+    <meta property="og:url" content={kanonis} />
+    <meta property="og:locale" content="id_ID" />
+    <ClientRouter />
+  </head>
+  <body>
+    <a
+      href="#isi"
+      class="absolute -left-[9999px] focus:left-3 focus:top-3 focus:z-[99] focus:bg-white focus:px-4 focus:py-2 focus:border-2 focus:border-tinta"
+      >Langsung ke isi</a
+    >
+    <Header />
+    <div class="tegel" aria-hidden="true"></div>
+    <main id="isi" tabindex="-1" class="outline-none" transition:animate="fade">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

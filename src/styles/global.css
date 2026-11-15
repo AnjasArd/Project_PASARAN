@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/* Dunia visual: nota kontan toko. Formulir dicetak tinta biru, isinya ditulis tangan. */
+@theme {
+  --color-kertas: #f3f5f1;
+  --color-nota: #ffffff;
+  --color-tinta: #16245c;
+  --color-pudar: #4a5687;
+  --color-karbon: #f7cfd6;
+  --color-kunyit: #e8a317;   /* Stitch: kunyit */
+  --color-cap: #c8321e;      /* Stitch: primary-container, hanya untuk aksi */
+  --color-cap-gelap: #a51706; /* Stitch: primary, hover dan galat */
+  --color-daun: #205d42;     /* Stitch: tertiary, status lunas */
+  --color-bolpoin: #3b5baa;  /* Stitch: secondary, tulisan tangan */
+  --color-garis: #c9cfdf;
+  --color-wa: #dcf3d2;
+
+  --font-display: "Archivo Variable", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Plus Jakarta Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-tangan: "Caveat Variable", "Segoe Print", "Comic Sans MS", cursive;
+
+  --breakpoint-xs: 26rem;
+  --ease-cap: cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 84px;
+    color-scheme: light;
+    interpolate-size: allow-keywords;
+  }
+  body {
+    background: var(--color-kertas);
+    color: var(--color-tinta);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(2.1rem, 5.4vw, 4rem); }
+  h2 { font-size: clamp(1.6rem, 3.4vw, 2.5rem); }
+  h3 { font-size: 1.2rem; font-stretch: 105%; line-height: 1.2; }
+  :focus-visible { outline: 3px solid var(--color-tinta); outline-offset: 3px; }
+  .gelap :focus-visible { outline-color: var(--color-kunyit); }
+  .gelap .terang :focus-visible { outline-color: var(--color-tinta); }
+  button, summary, select { cursor: pointer; }
+}
+
+@layer components {
+  .wadah { max-width: 1180px; margin-inline: auto; padding-inline: 20px; }
+  .bagian { padding-block: 72px; border-top: 2px solid var(--color-tinta); }
+  .kepala-bagian { display: grid; gap: 14px; margin-bottom: 36px; max-width: 62ch; }
+  .kepala-bagian p { color: var(--color-pudar); font-size: 1.05rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding: 10px 20px;
+    border: 2px solid var(--color-tinta); background: var(--color-nota); color: var(--color-tinta);
+    font: 700 1rem var(--font-body); text-decoration: none;
+    box-shadow: 4px 4px 0 var(--color-tinta);
+    transition: transform 0.08s, box-shadow 0.08s, background 0.15s;
+  }
+  .btn:hover { background: #e9edf7; }
+  .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--color-tinta); }
+  .btn-utama { background: var(--color-cap); color: #fff; }
+  .btn-utama:hover { background: var(--color-cap-gelap); }
+  .btn-kecil { min-height: 44px; padding: 6px 14px; font-size: 0.9rem; box-shadow: 3px 3px 0 var(--color-tinta); }
+  .btn[aria-disabled="true"], .btn[aria-disabled="true"]:hover, .btn:disabled, .btn:disabled:hover {
+    background: #e3e6ec; color: var(--color-pudar); box-shadow: none; cursor: not-allowed; transform: none;
+  }
+
+  .tegel {
+    height: 14px; border-bottom: 2px solid var(--color-tinta);
+    background: conic-gradient(from 45deg at 50% 50%, var(--color-kunyit) 90deg, var(--color-tinta) 0 180deg, var(--color-kunyit) 0 270deg, var(--color-tinta) 0) 0 0 / 14px 14px;
+  }
+
+  /* Nota kontan */
+  .nota {
+    position: relative; background: var(--color-nota);
+    border: 2px solid var(--color-tinta); border-bottom: 0;
+    padding: 16px 16px 14px; filter: drop-shadow(6px 6px 0 var(--color-tinta));
+  }
+  .nota::after {
+    content: ""; position: absolute; left: -2px; right: -2px; top: 100%; height: 9px;
+    background: conic-gradient(from 135deg at 50% 0, var(--color-nota) 90deg, transparent 0) 0 0 / 14px 9px;
+  }
+  .nota-kepala { display: flex; justify-content: space-between; gap: 10px; align-items: flex-end; padding-bottom: 8px; border-bottom: 2px solid var(--color-tinta); }
+  .nota-kepala b { font-family: var(--font-display); font-stretch: 112%; font-weight: 800; font-size: 1.25rem; line-height: 1; }
+  .nota-kepala small { font-size: 0.75rem; text-align: right; line-height: 1.35; }
+  .nota table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  .nota th { font-size: 0.72rem; font-weight: 700; text-align: left; padding: 4px 0; border-bottom: 1px solid var(--color-tinta); }
+  .nota th:last-child, .nota td:last-child { text-align: right; white-space: nowrap; }
+  .nota td { padding: 5px 0; border-bottom: 1px dotted var(--color-pudar); font-family: var(--font-tangan); font-size: 1.3rem; line-height: 1.15; vertical-align: top; font-variant-numeric: tabular-nums; }
+  .nota td.cetak { font-family: var(--font-body); font-size: 0.8rem; line-height: 1.5; }
+  .nota-total { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-top: 8px; padding: 8px 0; border-top: 2px solid var(--color-tinta); border-bottom: 4px double var(--color-tinta); white-space: nowrap; }
+  .nota-total span { font-weight: 700; font-size: 0.85rem; }
+  .nota-total strong { font-family: var(--font-tangan); font-size: 2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stempel {
+    display: inline-block; border: 3px solid var(--color-daun); color: var(--color-daun);
+    padding: 4px 12px; background: rgb(255 255 255 / 0.85);
+    font-family: var(--font-display); font-stretch: 125%; font-weight: 900; font-size: 1.3rem; letter-spacing: 0.08em; line-height: 1.2;
+  }
+  .stempel small { display: block; font: 700 0.6rem var(--font-body); letter-spacing: 0.04em; border-top: 1px dashed var(--color-daun); margin-top: 2px; padding-top: 2px; }
+
+  /* Isian formulir */
+  .isian { display: grid; gap: 6px; }
+  .isian label { font-weight: 700; font-size: 0.92rem; }
+  .isian input, .isian select {
+    width: 100%; min-height: 48px; padding: 8px 12px;
+    border: 2px solid var(--color-tinta); background: #fff; color: var(--color-tinta);
+    font: 500 1rem var(--font-body); border-radius: 0;
+  }
+  .isian input[aria-invalid="true"] { border-color: var(--color-cap); }
+  .isian .bantu { font-size: 0.82rem; color: var(--color-pudar); }
+  .isian .galat { font-size: 0.85rem; color: var(--color-cap-gelap); font-weight: 700; }
+
+  /* Tanya jawab */
+  .tanya { border-top: 2px solid var(--color-tinta); }
+  .tanya details { border-bottom: 2px solid var(--color-tinta); }
+  .tanya summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 18px 0; font-weight: 700; font-size: 1.05rem; }
+  .tanya summary::-webkit-details-marker { display: none; }
+  .tanya summary::after { content: "+"; flex: none; width: 32px; height: 32px; display: grid; place-items: center; border: 2px solid var(--color-tinta); font-size: 1.2rem; line-height: 1; transition: background 0.15s, rotate 0.2s; }
+  .tanya details[open] summary::after { content: "\2212"; background: var(--color-kunyit); rotate: 180deg; }
+  .tanya details p { padding: 0 48px 20px 0; color: var(--color-pudar); max-width: 65ch; }
+  .tanya details::details-content { block-size: 0; overflow: clip; transition: block-size 0.25s ease, content-visibility 0.25s allow-discrete; }
+  .tanya details[open]::details-content { block-size: auto; }
+
+  /* Pita sektor berjalan */
+  .pita { overflow: hidden; border-block: 2px solid var(--color-tinta); background: var(--color-kunyit); }
+  .pita-jalur { display: flex; width: max-content; gap: 0; animation: pita 38s linear infinite; }
+  .pita:hover .pita-jalur, .pita:focus-within .pita-jalur { animation-play-state: paused; }
+  .pita-jalur span { padding: 12px 22px; font-family: var(--font-display); font-stretch: 112%; font-weight: 800; white-space: nowrap; border-right: 2px solid var(--color-tinta); }
+  @keyframes pita { to { transform: translateX(-50%); } }
+
+  /* Ubin akronim */
+  .ubin { transition: transform 0.18s var(--ease-cap), box-shadow 0.18s; }
+  .ubin:has(.ubin-pasang) { transition: none; }
+  .ubin:hover { transform: translate(-3px, -3px); box-shadow: 6px 6px 0 var(--color-kunyit); position: relative; z-index: 1; }
+}
+
+/* ---------- Animasi interaktif dan gulir ----------
+   Aturan: keadaan diam selalu terlihat utuh. Animasi gulir hanya berjalan di peramban
+   yang mendukung animation-timeline dan bila pengguna tidak memilih kurangi gerak. */
+
+/* Progres baca di bawah header */
+.progres { position: absolute; left: 0; right: 0; bottom: -2px; height: 4px; background: var(--color-kunyit); transform-origin: left; transform: scaleX(0); pointer-events: none; }
+
+/* Garis langkah ditarik saat digulir */
+.langkah-item { position: relative; padding-top: 16px; }
+.langkah-item::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 6px; background: var(--color-tinta); transform-origin: left; }
+
+/* Stabilo kunyit di judul fitur */
+.stabilo {
+  background: linear-gradient(transparent 56%, color-mix(in srgb, var(--color-kunyit) 70%, transparent) 56% 94%, transparent 94%) no-repeat 0 0 / 100% 100%;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.baris-fitur:hover .stabilo { background-size: 100% 100%; }
+
+/* Garis bawah tulisan tangan di CTA */
+.coretan path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+/* Kartu paket */
+.kartu-paket { transition: transform 0.2s var(--ease-cap), box-shadow 0.2s; }
+.kartu-paket:hover { transform: translate(-4px, -4px); box-shadow: 8px 8px 0 var(--color-tinta); position: relative; z-index: 1; }
+
+/* Ubin dipasang satu per satu */
+.ubin-wadah { view-timeline-name: --ubin; }
+
+/* Catatan build: minifier menggabungkan animation-timeline ke shorthand `animation`, yang tidak
+   dikenali peramban. Karena itu nama animasi dan timeline ditulis di aturan terpisah;
+   aturan timeline memakai awalan `html` agar menang dan tidak digabung. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progres { animation: tarik linear both; }
+    .langkah-item::before { animation: tarik linear both; }
+    .stabilo { animation: stabilo linear both; }
+    .coretan path { animation: coret linear both; }
+    .ubin-pasang { animation: pasang linear both; }
+    .muncul { animation: muncul linear both; }
+
+    html .progres { animation-timeline: scroll(root); }
+    html .langkah-item::before { animation-timeline: view(); animation-range: entry 30% cover 45%; }
+    html .stabilo { animation-timeline: view(); animation-range: entry 60% cover 50%; }
+    html .coretan path { animation-timeline: view(); animation-range: entry 40% cover 55%; }
+    html .ubin-pasang { animation-timeline: --ubin; animation-range: entry calc(10% + var(--i) * 7%) entry calc(45% + var(--i) * 7%); }
+    html .muncul { animation-timeline: view(); animation-range: entry 0% entry 32%; }
+  }
+}
+@keyframes tarik { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes stabilo { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+@keyframes coret { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes pasang {
+  from { opacity: 0; transform: translateY(-36px) rotate(var(--r, -4deg)); }
+  70% { opacity: 1; transform: translateY(4px) rotate(0deg); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Saat ubin disentuh: hurufnya dicap */
+.ubin .huruf { display: inline-block; transition: transform 0.25s var(--ease-cap); }
+.ubin:hover .huruf, .ubin:focus-within .huruf { transform: scale(1.12) rotate(-6deg); }
+
+@keyframes muncul { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+/* Urutan masuk hero: satu momen saat halaman dibuka. */
+@media (prefers-reduced-motion: no-preference) {
+  .masuk { animation: masuk 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 90ms); }
+  @keyframes masuk { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .pita-jalur { animation: none; flex-wrap: wrap; width: auto; }
+}

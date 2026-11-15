@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { FAQ } from '../data/site';
+const kelompok = [...new Set(FAQ.map((f) => f.kelompok))];
+---
+
+<Base judul="Tanya jawab" deskripsi="Jawaban untuk pertanyaan yang sering muncul tentang biaya, cara memulai, dan pengalaman pembeli di PASARAN.">
+  <PageHead judul="Tanya jawab" pengantar="Belum menemukan jawabannya? Buka toko gratis dan coba sendiri, tanpa kewajiban apa pun." />
+
+  {
+    kelompok.map((k) => (
+      <section class="bagian !py-12">
+        <div class="wadah grid gap-6 md:grid-cols-[3fr_8fr]">
+          <h2 class="!text-[1.6rem]">{k}</h2>
+          <Faq kelompok={k} />
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaBand />
+</Base>

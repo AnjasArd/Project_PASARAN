@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { FITUR, SEKTOR } from '../data/site';
+---
+
+<Base judul="Fitur" deskripsi="Pesanan lewat WhatsApp, pembayaran QRIS, nota digital, dan catatan penjualan untuk toko UMKM.">
+  <PageHead judul="Semua yang dibutuhkan toko, tanpa yang merepotkan" pengantar="Setiap fitur meniru kebiasaan berjualan yang sudah Anda kenal: daftar harga, nota, dan obrolan WhatsApp." />
+
+  <section class="bagian">
+    <div class="wadah grid gap-0 border-t-2 border-tinta">
+      {
+        FITUR.map((f) => (
+          <article class="baris-fitur grid gap-3 md:grid-cols-[4fr_7fr] md:gap-10 py-8 border-b border-garis">
+            <h2 class="!text-[1.6rem]"><span class="stabilo">{f.judul}</span></h2>
+            <div class="grid gap-2 max-w-[62ch]">
+              <p class="font-bold">{f.ket}</p>
+              <p class="text-pudar">{f.rinci}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bagian" id="sektor">
+    <div class="wadah">
+      <div class="kepala-bagian">
+        <h2>Cocok untuk usaha apa saja</h2>
+        <p>Setiap sektor punya cara jualan sendiri. PASARAN menyesuaikan katalog dan nota dengan kebiasaan itu.</p>
+      </div>
+      <ul class="grid md:grid-cols-3 gap-x-8 border-t-2 border-tinta">
+        {
+          SEKTOR.map((s) => (
+            <li class="grid gap-1.5 py-5 border-b border-garis muncul">
+              <h3>{s.nama}</h3>
+              <p class="text-pudar text-[0.95rem]">{s.ket}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroHook from '../components/react/HeroHook';
+import StoreDemo from '../components/react/StoreDemo';
+import Acronym from '../components/Acronym.astro';
+import Langkah from '../components/Langkah.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { FITUR, SEKTOR, STATISTIK } from '../data/site';
+import { rupiah } from '../lib/format';
+const pita = [...SEKTOR, ...SEKTOR];
+---
+
+<Base>
+  <section class="py-12 md:py-16">
+    <div class="wadah">
+      <HeroHook client:load />
+    </div>
+  </section>
+
+  <div class="pita" aria-label="Sektor usaha yang didukung">
+    <div class="pita-jalur">
+      {pita.map((s, i) => <span aria-hidden={i >= SEKTOR.length ? 'true' : undefined}>{s.nama}</span>)}
+    </div>
+  </div>
+
+  <section class="py-12">
+    <div class="wadah">
+      <dl class="grid grid-cols-3 border-t-2 border-tinta">
+        {
+          STATISTIK.map((s) => (
+            <div class="pt-4 pr-3">
+              <dt class="text-sm text-pudar">{s.label}</dt>
+              <dd class="font-display font-extrabold text-[clamp(1.3rem,4vw,2.6rem)] leading-tight tabular-nums [font-stretch:112%]">
+                {s.awalan}<span data-hitung={s.nilai}>{rupiah(s.nilai)}</span>{s.akhiran}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="bagian" id="cara-kerja">
+    <div class="wadah">
+      <div class="kepala-bagian"><h2>Tiga langkah sampai toko buka</h2></div>
+      <Langkah />
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah">
+      <div class="kepala-bagian">
+        <h2>Coba jadi pembeli di toko contoh</h2>
+        <p>Tambah barang, lihat nota tersusun, lalu pesan. Beginilah pembeli Anda berbelanja nanti.</p>
+      </div>
+      <StoreDemo client:visible />
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah">
+      <div class="kepala-bagian">
+        <h2>Kenapa namanya PASARAN?</h2>
+        <p>Pasaran artinya lazim, merakyat, dan dipakai banyak orang. Teknologinya setara standar global, tapi dirakit bersahaja supaya warung makan, pengrajin sablon, dan bengkel rumahan tidak gentar berjualan online.</p>
+      </div>
+      <Acronym />
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah grid gap-10 lg:grid-cols-[5fr_7fr] items-start">
+      <div class="kepala-bagian lg:sticky lg:top-28">
+        <h2>Yang Anda dapat di setiap toko</h2>
+        <p>Tidak ada fitur yang perlu dipelajari lama. Semuanya meniru cara Anda berjualan sekarang.</p>
+        <a class="btn justify-self-start mt-2" href="/fitur">Lihat semua fitur</a>
+      </div>
+      <dl class="grid sm:grid-cols-2 gap-x-8 border-t-2 border-tinta">
+        {
+          FITUR.map((f) => (
+            <div class="baris-fitur py-4.5 border-b border-garis">
+              <dt class="font-bold text-[1.02rem]"><span class="stabilo">{f.judul}</span></dt>
+              <dd class="text-pudar text-[0.95rem] mt-1">{f.ket}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah">
+      <div class="kepala-bagian"><h2>Yang sering ditanyakan</h2></div>
+      <Faq batas={4} />
+      <a class="btn mt-8" href="/tanya-jawab">Semua tanya jawab</a>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  // Angka menghitung naik sekali saat terlihat. Tanpa JS atau dengan kurangi-gerak, angka akhir sudah tercetak.
+  const format = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  document.addEventListener('astro:page-load', () => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const amati = new IntersectionObserver((entri) => {
+      for (const e of entri) {
+        if (!e.isIntersecting) continue;
+        amati.unobserve(e.target);
+        const el = e.target as HTMLElement;
+        const akhir = Number(el.dataset.hitung);
+        if (!akhir) continue;
+        const mulai = performance.now();
+        const langkah = (t: number) => {
+          const p = Math.min(1, (t - mulai) / 1100);
+          el.textContent = format(akhir * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(langkah);
+        };
+        requestAnimationFrame(langkah);
+      }
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-hitung]').forEach((el) => amati.observe(el));
+  });
+</script>

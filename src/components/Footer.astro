@@ -1,0 +1,28 @@
+---
+import { NAV, SITUS } from '../data/site';
+const tahun = new Date().getFullYear();
+---
+
+<footer class="bg-kertas border-t-2 border-tinta pt-10 pb-12 text-[0.92rem]">
+  <div class="wadah grid gap-8 md:grid-cols-[2fr_1fr_1fr]">
+    <div class="grid gap-3 content-start">
+      <span class="font-display font-black text-xl [font-stretch:125%]">{SITUS.nama}</span>
+      <p class="text-pudar max-w-[44ch]">Platform toko online untuk UMKM Indonesia. Pesanan lewat WhatsApp, bayar pakai QRIS, tanpa potongan komisi.</p>
+      <p class="font-tangan text-bolpoin text-2xl leading-none -rotate-1 origin-left">{SITUS.semboyan}</p>
+    </div>
+    <nav aria-label="Produk">
+      <h2 class="!text-base mb-2">Produk</h2>
+      <ul>
+        {NAV.map((n) => <li><a class="inline-block py-2.5" href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Akun">
+      <h2 class="!text-base mb-2">Akun</h2>
+      <ul>
+        <li><a class="inline-block py-2.5" href="/daftar">Buka toko</a></li>
+        <li><a class="inline-block py-2.5" href="/masuk">Masuk</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="wadah mt-8 pt-5 border-t border-garis text-pudar text-sm">© {tahun} {SITUS.nama}</div>
+</footer>

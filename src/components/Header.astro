@@ -1,0 +1,75 @@
+---
+import { NAV, SITUS } from '../data/site';
+const jalur = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="sticky top-0 z-50 bg-kertas border-b-2 border-tinta" transition:persist>
+  <div class="wadah flex items-center justify-between gap-4 min-h-[68px]">
+    <a
+      href="/"
+      class="font-display font-black text-xl no-underline px-3 py-1 border-2 border-tinta bg-kunyit [font-stretch:125%]"
+      aria-label={`${SITUS.nama}, ke beranda`}>{SITUS.nama}</a
+    >
+
+    <nav id="navigasi" aria-label="Utama" class="navigasi max-lg:hidden max-lg:absolute max-lg:inset-x-0 max-lg:top-full max-lg:bg-kertas max-lg:border-b-2 max-lg:border-tinta">
+      <ul class="flex gap-1 max-lg:flex-col max-lg:px-5 max-lg:pb-4 max-lg:pt-2">
+        {
+          NAV.map((n) => (
+            <li>
+              <a
+                href={n.href}
+                data-nav={n.href}
+                aria-current={jalur === n.href ? 'page' : undefined}
+                class="block px-3 py-2.5 no-underline font-medium text-[0.95rem] hover:underline decoration-2 underline-offset-[6px] aria-[current=page]:underline aria-[current=page]:font-bold max-lg:px-1 max-lg:py-3 max-lg:border-b max-lg:border-garis"
+              >
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2.5">
+      <a class="btn btn-kecil max-lg:hidden" href="/masuk">Masuk</a>
+      <a class="btn btn-kecil btn-utama max-xs:hidden" href="/daftar">Buka toko</a>
+      <button class="btn btn-kecil lg:hidden" id="tombol-menu" type="button" aria-expanded="false" aria-controls="navigasi">Menu</button>
+    </div>
+  </div>
+  <div class="progres" aria-hidden="true"></div>
+</header>
+
+<script>
+  // Header dipertahankan antarhalaman (transition:persist), jadi pasang pendengar sekali saja.
+  const tombol = document.getElementById('tombol-menu') as HTMLButtonElement | null;
+  const nav = document.getElementById('navigasi');
+
+  function tutup() {
+    nav?.classList.add('max-lg:hidden');
+    tombol?.setAttribute('aria-expanded', 'false');
+    if (tombol) tombol.textContent = 'Menu';
+  }
+
+  tombol?.addEventListener('click', () => {
+    const buka = nav?.classList.toggle('max-lg:hidden') === false;
+    tombol.setAttribute('aria-expanded', String(buka));
+    tombol.textContent = buka ? 'Tutup' : 'Menu';
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && tombol?.getAttribute('aria-expanded') === 'true') {
+      tutup();
+      tombol.focus();
+    }
+  });
+
+  // Setelah pindah halaman: tutup menu dan tandai tautan yang aktif.
+  document.addEventListener('astro:page-load', () => {
+    tutup();
+    const jalur = location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
+      if (a.dataset.nav === jalur) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+  });
+</script>

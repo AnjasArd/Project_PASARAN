@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import PricingTable from '../components/react/PricingTable';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<Base judul="Paket harga" deskripsi="Mulai gratis dengan paket Lapak. Tanpa potongan komisi di semua paket.">
+  <PageHead judul="Mulai gratis, naik paket saat ramai" pengantar="Semua paket tanpa potongan komisi. Anda hanya membayar langganan, dan bisa berhenti kapan saja." />
+
+  <section class="pb-20">
+    <div class="wadah">
+      <PricingTable client:load />
+    </div>
+  </section>
+
+  <section class="bagian">
+    <div class="wadah">
+      <div class="kepala-bagian"><h2>Soal biaya</h2></div>
+      <Faq kelompok="Biaya" />
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

@@ -1,0 +1,21 @@
+---
+interface Props { judul?: string; ket?: string }
+const { judul = 'Buka toko Anda hari ini', ket = 'Gratis untuk mulai. Toko aktif dalam 10 menit.' } = Astro.props;
+---
+<section class="gelap bg-tinta text-white py-16 border-t-2 border-tinta">
+  <div class="wadah flex flex-wrap items-center justify-between gap-6">
+    <div class="grid gap-2">
+      <h2 class="relative justify-self-start pb-3">
+        {judul}
+        <svg class="coretan absolute left-0 -bottom-1 w-full h-4 overflow-visible" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M3 11 C 60 3, 120 14, 180 7 S 270 4, 297 9" pathLength="1" fill="none" stroke="var(--color-kunyit)" stroke-width="4" stroke-linecap="round" />
+        </svg>
+      </h2>
+      <p class="text-[#C9D1EE] text-[1.05rem]">{ket}</p>
+    </div>
+    <div class="flex flex-wrap gap-3.5">
+      <a class="btn btn-utama !border-white !shadow-[4px_4px_0_var(--color-kunyit)]" href="/daftar">Buka toko di PASARAN</a>
+      <a class="btn !border-white !shadow-[4px_4px_0_var(--color-kunyit)]" href="/contoh-toko">Coba contoh toko</a>
+    </div>
+  </div>
+</section>

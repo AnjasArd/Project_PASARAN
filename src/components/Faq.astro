@@ -1,0 +1,17 @@
+---
+import { FAQ } from '../data/site';
+interface Props { batas?: number; kelompok?: string }
+const { batas, kelompok } = Astro.props;
+let daftar = kelompok ? FAQ.filter((f) => f.kelompok === kelompok) : FAQ;
+if (batas) daftar = daftar.slice(0, batas);
+---
+<div class="tanya max-w-[780px]">
+  {
+    daftar.map((f, i) => (
+      <details open={i === 0 && !kelompok}>
+        <summary>{f.t}</summary>
+        <p>{f.j}</p>
+      </details>
+    ))
+  }
+</div>

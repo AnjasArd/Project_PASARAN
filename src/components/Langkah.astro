@@ -1,0 +1,14 @@
+---
+import { LANGKAH } from '../data/site';
+---
+<ol class="grid gap-7 md:grid-cols-3">
+  {
+    LANGKAH.map((l, i) => (
+      <li class="langkah-item grid gap-2.5 content-start">
+        <span class="font-tangan text-bolpoin text-5xl leading-[0.8]" aria-hidden="true">{i + 1}</span>
+        <h3>{l.judul}</h3>
+        <p class="text-pudar">{l.ket}</p>
+      </li>
+    ))
+  }
+</ol>

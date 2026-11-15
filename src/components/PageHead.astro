@@ -1,0 +1,11 @@
+---
+interface Props { judul: string; pengantar?: string }
+const { judul, pengantar } = Astro.props;
+---
+<section class="py-14 md:py-20">
+  <div class="wadah grid gap-4 max-w-[1180px]">
+    <h1 class="masuk max-w-[18ch]" style="--i:0">{judul}</h1>
+    {pengantar && <p class="masuk text-pudar text-[1.1rem] max-w-[58ch]" style="--i:1">{pengantar}</p>}
+    <slot />
+  </div>
+</section>
